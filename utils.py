@@ -8,16 +8,15 @@ def spawnStations(stations=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:0
     # antenna_gain = "5"
     # active_scan = 1
     # scan_freq = "2412 2437 2462"
-    device_id = 0
      
     #  generate smart meters 
-    device_id  = generate(device_control=device_id, device_total=smart_meters, prefix_name="smeter", mac_prefix=mac_prefix)
+    generate(device_control=0, device_total=smart_meters, prefix_name="smeter", mac_prefix=mac_prefix)
 
     # generate actuator
-    device_id  = generate(device_control=device_id, device_total=actuator, prefix_name="actuator", mac_prefix=mac_prefix)
+    generate(device_control=smart_meters, device_total=actuator, prefix_name="actuator", mac_prefix=mac_prefix)
 
     # generate stations
-    device_id  = generate(device_control=device_id, device_total=stations, prefix_name="sta", mac_prefix=mac_prefix)
+    generate(device_control=smart_meters + actuator, device_total=stations, prefix_name="sta", mac_prefix=mac_prefix)
 
 
 def generate(device_control, device_total, prefix_name, mac_prefix):
@@ -27,4 +26,6 @@ def generate(device_control, device_total, prefix_name, mac_prefix):
         mac_addr = f'{mac_prefix}:{"{:0>2d}".format(device_control)}'
 
         print("Device: ", device_name, "mac_addr:", mac_addr)
-    return device_control
+
+if __name__ == "__main__":
+    spawnStations(stations=10, smart_meters=3, actuator=5)
