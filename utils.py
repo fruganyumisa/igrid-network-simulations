@@ -29,10 +29,10 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
     """
     for i in range(device_total):
         device_control += 1
-        device_name = f'{prefix_name}{i + 1}'
-        mac_addr = f'{mac_prefix}:{"{:0>2d}".format(device_control)}'
-        ip_addr = f'{ip_prefix}.{device_control}{cidr}'
-        pos = f'{device_control},{device_control},0'
+        device_name = '{}{}'.format(prefix_name,i + 1)
+        mac_addr = '{}:{:0>2d}'.format(mac_prefix, device_control)
+        ip_addr = '{}.{}{}'.format(ip_prefix, device_control, cidr)
+        pos = '{},{},0'.format(device_control, device_control)
 
         print("Device: ", device_name, "mac_addr:",
               mac_addr, "ip_addr:", ip_addr, "position:", pos)
@@ -43,10 +43,10 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
 
 def spawnAccessPoint(net, access_point=0):
     for i in range(access_point):
-        ap_name = f'ap{i + 1}'
-        ssid = f'iGrid-{ap_name}'
+        ap_name = 'ap{}'.format(i + 1)
+        ssid = 'iGrid-{}'.format(ap_name)
         curr = i + 1
-        pos = f'{10 * curr},{30 * curr},0'
+        pos = '{},{},0'.format(10 * curr, 30 * curr)
 
         print("ap_name:", ap_name, "ssid:", ssid, "pos:", pos)
         net.addAccessPoint(ap_name, ssid=ssid, mode='g', channel='6',
