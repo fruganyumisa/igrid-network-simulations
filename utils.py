@@ -7,8 +7,6 @@ def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00
 
     ip_prefix  defines the network address. The host address will be generated from device index.
     """
-    # ip = "10.0.0.1/8"
-    # position = "10,20,0"
 
     #  generate smart meters
     net = generate(net, device_control=0, device_total=smart_meters,
@@ -21,6 +19,8 @@ def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00
     # generate stations
     net = generate(net, device_control=smart_meters + actuator,
                    device_total=stations, prefix_name="sta", mac_prefix=mac_prefix, ip_prefix=ip_prefix, cidr=cidr)
+
+    return net
 
 
 def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_prefix, cidr):
@@ -39,7 +39,3 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
         net.addStation(device_name, mac=mac_addr, ip=ip_addr,
                        antennaHeight='1', antennaGain='5',  position=pos, active_scan=1, scan_freq="2412 2437 2462")
     return net
-
-
-if __name__ == "__main__":
-    spawnStations("Hello", stations=10, smart_meters=2, actuator=5)
