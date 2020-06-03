@@ -39,3 +39,16 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
         net.addStation(device_name, mac=mac_addr, ip=ip_addr,
                        antennaHeight='1', antennaGain='5',  position=pos, active_scan=1, scan_freq="2412 2437 2462")
     return net
+
+
+def spawnAccessPoint(net, access_point=0):
+    for i in range(access_point):
+        ap_name = f'ap{i + 1}'
+        ssid = f'iGrid-{ap_name}'
+        curr = i + 1
+        pos = f'{10 * curr},{30 * curr},0'
+
+        print("ap_name:", ap_name, "ssid:", ssid, "pos:", pos)
+        net.addAccessPoint(ap_name, ssid=ssid, mode='g', channel='6',
+                           model='DI524', position=pos, range='100')
+    return net
