@@ -205,17 +205,17 @@ def topology():
     CLI_wifi(net)
 
     
-    x = 1
+   #  x = 1
 
-    while x>= 1:
+   #  while x>= 1:
        
-       if (x%3 == 0):
-          net.cmd('iperf smeter1 server')
-       else:
-         if(x%4 == 0):
-            smeter1.cmd('iperf actuator1 server')
-         else:
-            smeter1.cmd('ping 10.0.8.5')
+   #     if (x%3 == 0):
+   #        net.cmd('iperf smeter1 server')
+   #     else:
+   #       if(x%4 == 0):
+   #          smeter1.cmd('iperf actuator1 server')
+   #       else:
+   #          smeter1.cmd('ping 10.0.8.5')
 
 
     
