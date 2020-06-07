@@ -1,4 +1,4 @@
-def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:00:00", ip_prefix="10.0.0", cidr="/1"):
+def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:00:00", ip_prefix="10.0.0", cidr="/8"):
     """
     spawnStations generate specified number of IoT devices (stations) and assign to them (stations) 
     specific mac address and ip address based on mac_prefic and ip_prefix
