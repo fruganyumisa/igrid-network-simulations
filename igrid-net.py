@@ -101,6 +101,9 @@ def topology():
     ap3.start([cl])
 
     #net.cmd( "sh ifconfig hwsim0 up")
+    os.system("sh ifconfig hwsim0 up")
+    os.system("sudo wireshark")
+    time.sleep(10)
 
 
     info("Starting traffic\n")
