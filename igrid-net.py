@@ -5,11 +5,11 @@ from mininet.node import Controller
 from mininet.log import setLogLevel, info
 from mn_wifi.net import Mininet_wifi
 from mn_wifi.node import OVSKernelAP
-from mn_wifi.cli import CLI_wifi
-from mn_wifi.devices import GetTxPower
+from mn_wifi.cli import CLI as CLI_wifi
+from mn_wifi.devices import DeviceTxPower as GetTxPower
 from mn_wifi.link import wmediumd
 from mn_wifi.wmediumdConnector import interference
-from mn_wifi.propagationModels import propagationModel
+from mn_wifi.propagationModels import PropagationModel
 from utils import spawnStations
 from packets import *
 
@@ -34,7 +34,7 @@ def int2dpid( dpid ):
 def topology():
 
     print("Welcome to mininet-Wifi")
-    net = Mininet_wifi(controller = Controller, link=wmediumd, accessPoint =OVSKernelAP, noise_threshold=-91, fading_coefficient=3)
+    net = Mininet_wifi(controller = Controller, link=wmediumd, accessPoint =OVSKernelAP, noise_th=-91,)
 
 
    ## Hey mbaga here the for loop should be placed you can create a function in which when called with input maybe number of AP3 it uses a loop to create them
@@ -79,7 +79,7 @@ def topology():
 
     info("*** Enabling Association control (AP)\n")
     
-    net.setAssociationCtrl(ac='ssf')
+    #net.setAssociationCtrl(ac='ssf')
     net.auto_association()
 
 
@@ -99,7 +99,7 @@ def topology():
     ap2.start([cl])
     ap3.start([cl])
 
-    net.cmd( "sh ifconfig hwsim0 up")
+    #net.cmd( "sh ifconfig hwsim0 up")
 
 
     info("Starting traffic\n")
