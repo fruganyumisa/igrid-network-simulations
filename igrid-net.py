@@ -72,7 +72,7 @@ def topology():
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
-    server=net.start_socket(ip='10.0.8.5', port=8080)
+    #server=net.start_socket(ip='10.0.8.5', port=8080)
     
     #time.sleep(90)
 
