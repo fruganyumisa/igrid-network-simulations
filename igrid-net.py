@@ -34,7 +34,7 @@ def int2dpid( dpid ):
 def topology():
 
     print("Welcome to mininet-Wifi")
-    net = Mininet_wifi(controller = Controller, link=wmediumd, accessPoint =OVSKernelAP, noise_th=-91,)
+    net = Mininet_wifi(controller = Controller, link=wmediumd, accessPoint =OVSKernelAP, noise_th=-91,  ac_method='sf')
 
 
    ## Hey mbaga here the for loop should be placed you can create a function in which when called with input maybe number of AP3 it uses a loop to create them
@@ -72,6 +72,7 @@ def topology():
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
+    net.start_socket(ip='10.0.8.5', port=8080)
     
     #time.sleep(90)
 
@@ -79,7 +80,7 @@ def topology():
 
     info("*** Enabling Association control (AP)\n")
     
-    #net.setAssociationCtrl(ac='ssf')
+    
     net.auto_association()
 
 
