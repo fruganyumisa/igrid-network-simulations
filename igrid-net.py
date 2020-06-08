@@ -11,6 +11,7 @@ from mn_wifi.link import wmediumd
 from mn_wifi.wmediumdConnector import interference
 from mn_wifi.propagationModels import propagationModel
 from utils import spawnStations
+from packets import *
 
 # command to start virtual interface to capture simulations traffic
 #
@@ -65,6 +66,7 @@ def topology():
     #Takes 5 minutes before to proceed
     #time.sleep(40)
     net.setPropagationModel(model="logDistance", exp=4)
+    #net.setModule('./mac80211_hwsim.ko')
 
 
 
@@ -73,7 +75,7 @@ def topology():
     
     #time.sleep(90)
 
-    net.plotGraph(max_x=60, max_y=60)
+    net.plotGraph(max_x=300, max_y=300)
 
     info("*** Enabling Association control (AP)\n")
     
@@ -99,6 +101,18 @@ def topology():
 
     net.cmd( "sh ifconfig hwsim0 up")
 
+
+    info("Starting traffic\n")
+    
+    for i in range(27):
+       device_control =+1
+       ip_prefix ='10.0.0'
+       srcip  = '{}.{}'.format(ip_prefix, device_control)
+       dstip='10.0.8.5'
+       dstport=8080
+
+       send_packet(srip=srcip,dsip=dstip,dstport=dstport)
+    
 
     
   
