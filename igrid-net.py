@@ -102,14 +102,14 @@ def topology():
 
     #net.cmd( "sh ifconfig hwsim0 up")
     #os.system("sh ifconfig hwsim0 up")
-    os.system("sudo wireshark")
-    #time.sleep(10)
+    #os.system("sudo wireshark")
+    time.sleep(10)
 
 
     info("Starting traffic\n")
     
-    for i in range(27):
-       device_control =+1
+    for i in range(33):
+       device_control =+2
        ip_prefix ='10.0.0'
        srcip  = '{}.{}'.format(ip_prefix, device_control)
        dstip='10.0.8.5'
@@ -126,17 +126,7 @@ def topology():
     CLI_wifi(net)
 
     
-    x = 1
 
-    while x>= 1:
-       
-       if (x%3 == 0):
-          print("Not possible")
-       else:
-         if(x%4 == 0):
-            print("Possible")
-         else:
-            print("NOt enough")
 
 
     

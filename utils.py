@@ -37,7 +37,8 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
         print("Device: ", device_name, "mac_addr:",
               mac_addr, "ip_addr:", ip_addr, "position:", pos)
         net.addStation(device_name, mac=mac_addr, ip=ip_addr,
-                       antennaHeight='1', antennaGain='5',  position=pos, active_scan=1, scan_freq="2412 2437 2462")
+                       antennaHeight='1', antennaGain='5',  position=pos)
+                       #, active_scan=1, scan_freq="2412 2437 2462"
     return net
 
 
