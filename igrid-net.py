@@ -103,19 +103,19 @@ def topology():
     #net.cmd( "sh ifconfig hwsim0 up")
     #os.system("sh ifconfig hwsim0 up")
     #os.system("sudo wireshark")
-    time.sleep(10)
 
 
-    info("Starting traffic\n")
+
+   #  info("Starting traffic\n")
     
-    for i in range(33):
-       device_control =+2
-       ip_prefix ='10.0.0'
-       srcip  = '{}.{}'.format(ip_prefix, device_control)
-       dstip='10.0.8.5'
-       dstport=8080
+   #  for i in range(33):
+   #     device_control =+2
+   #     ip_prefix ='10.0.0'
+   #     srcip  = '{}.{}'.format(ip_prefix, device_control)
+   #     dstip='10.0.8.5'
+   #     dstport=8080
 
-       send_packet(srip=srcip,dsip=dstip,dstport=dstport)
+   #     send_packet(srip=srcip,dsip=dstip,dstport=dstport)
     
 
     
@@ -124,13 +124,6 @@ def topology():
 
     info("*** Running CLI\n")
     CLI_wifi(net)
-
-    
-
-
-
-    
-
 
     info("*** Stopping the network \n")
     net.stop()
