@@ -6,7 +6,7 @@ from utils import spawnStations
 
 def create_packet(srip, dstip, dstport):
     payload = "Dummy packets for igrid networks"
-    packet = Ether()/IP(src=srip, dst=dstip)/TCP(dport=dstport)/payload
+    packet = Ether()/IP(src=srip, dst=dstip)/TCP(dport=dstport)/ICMP()
 
     return packet
 
