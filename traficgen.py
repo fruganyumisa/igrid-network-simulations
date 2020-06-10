@@ -30,7 +30,7 @@ This fuction generates ips from a given number from specified starting last octe
     ip = generate_ip(start_ip=1, total_ips=3)
 
     for node in range(3):
-        send_packet(ip[node],dsip='10.0.0.5')
+        send_packet(ip[node],dsip='10.0.0.5',dstport=8080)
 
     time.sleep(20)
 
@@ -39,17 +39,17 @@ This fuction generates ips from a given number from specified starting last octe
     sensor_ip = generate_ip(start_ip=4,total_ips=27)
 
     for sensor in range(27):
-        send_packet(sensor_ip[sensor],dsip='10.0.0.5')
+        send_packet(sensor_ip[sensor],dsip='10.0.0.5',dstport=8080)
     
     time.sleep(5)
 
 
     #actuator receive the packets from fog
 
-    actuator_ip = generate_ip(start_ip='10.0.0.32',total_ips=3)
+    actuator_ip = generate_ip(start_ip=32,total_ips=3)
 
     for actuator in range(3):
-        send_packet(srip='10.0.0.5',dsip=actuator_ip[actuator])
+        send_packet(srip='10.0.0.5',dsip=actuator_ip[actuator],dstport=8080)
 
 if __name__ == "__main__":
     node_sendpkts()
