@@ -5,14 +5,14 @@ from utils import spawnStations
 
 
 def create_packet(srip, dstip, dstport):
-    payload = "Dummy packets for igrid networks"
+    payload = "Dummy packets for igrid networks by Mr Chugulu Godfrey"
     packet = Ether()/IP(src=srip, dst=dstip)/TCP(dport=dstport)/ICMP()
 
     return packet
 
 def send_packet(srip, dsip, dstport):
     packet = create_packet(srip=srip, dstip=dsip, dstport=dstport)
-    send(packet, count=1024, return_packets=True)
+    sr(packet, count=10, return_packets=True)
 
 
 
