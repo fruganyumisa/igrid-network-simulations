@@ -1,6 +1,6 @@
-def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:00:00", ip_prefix="10.0.0", cidr="/8"):
+def spawnStations(net, sensors=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:00:00", ip_prefix="10.0.0", cidr="/8"):
     """
-    spawnStations generate specified number of IoT devices (stations) and assign to them (stations) 
+    spawnStations generate specified number of IoT devices (sensors) and assign to them (stations) 
     specific mac address and ip address based on mac_prefic and ip_prefix
 
     mac_prefix defines first 5 octet number(s) in mac address. The last octect will be generated from device index.
@@ -16,9 +16,9 @@ def spawnStations(net, stations=0, smart_meters=0, actuator=0, mac_prefix="00:00
     net = generate(net, device_control=smart_meters, device_total=actuator,
                    prefix_name="actuator", mac_prefix=mac_prefix, ip_prefix=ip_prefix, cidr=cidr)
 
-    # generate stations
+    # generate sensors
     net = generate(net, device_control=smart_meters + actuator,
-                   device_total=stations, prefix_name="sta", mac_prefix=mac_prefix, ip_prefix=ip_prefix, cidr=cidr)
+                   device_total=sensors, prefix_name="sensor", mac_prefix=mac_prefix, ip_prefix=ip_prefix, cidr=cidr)
 
     return net
 

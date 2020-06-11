@@ -54,10 +54,10 @@ def topology():
    #  it uses a loop to create them the nodes maybe the smart meters, sensors or actuators
      
 
-    server = net.addHost('server', mac = '00:00:00:00:08:00', ip = '10.0.8.5/8')
+    server = net.addHost('server', mac = '00:00:00:00:08:00', ip = '10.0.0.254/8')
     sw = net.addSwitch('sw',  dpid=int2dpid(1))
 
-    net = spawnStations(net, stations=27, smart_meters=3, actuator=3, cidr="/8")
+    net = spawnStations(net, sensors=90, smart_meters=50, actuator=30, cidr="/8")
 
 
     cl = net.addController('cl', controller=Controller)
@@ -76,7 +76,7 @@ def topology():
     
     #time.sleep(90)
 
-    net.plotGraph(max_x=300, max_y=300)
+    net.plotGraph(max_x=150, max_y=150)
 
     info("*** Enabling Association control (AP)\n")
     
