@@ -57,7 +57,7 @@ def topology():
     server = net.addHost('server', mac = '00:00:00:00:08:00', ip = '10.0.0.254/8')
     sw = net.addSwitch('sw',  dpid=int2dpid(1))
 
-    net = spawnStations(net, sensors=90, smart_meters=50, actuator=30, cidr="/8")
+    net = spawnStations(net, sensors=45, smart_meters=30, actuator=10, cidr="/8")
 
 
     cl = net.addController('cl', controller=Controller)

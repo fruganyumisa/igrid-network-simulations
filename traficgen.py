@@ -27,26 +27,26 @@ This fuction generates ips from a given number from specified starting last octe
 
     # smartmeters send their traffic
 
-    ip = generate_ip(start_ip=1, total_ips=50)
+    ip = generate_ip(start_ip=1, total_ips=30)
 
-    for node in range(50):
-        send_packet(ip[node], dsip='10.0.0.254', dstport=8080)
+    for node in range(30):
+        send_packet(ip[node], dsip='10.0.0.55', dstport=8080)
 
     time.sleep(20)
     # stations(sensors) send their traffic
-    sensor_ip = generate_ip(start_ip=51, total_ips=90)
+    sensor_ip = generate_ip(start_ip=31, total_ips=45)
 
-    for sensor in range(90):
-        send_packet(sensor_ip[sensor], dsip='10.0.0.254', dstport=8080, data="V = 240, I = 15, T = 09:40")
+    for sensor in range(45):
+        send_packet(sensor_ip[sensor], dsip='10.0.0.55', dstport=8080, data="V = 240, I = 15, T = 09:40")
 
     time.sleep(5)
 
     # actuator receive the packets from fog
 
-    actuator_ip = generate_ip(start_ip=141, total_ips=10)
+    actuator_ip = generate_ip(start_ip=76, total_ips=10)
 
     for actuator in range(10):
-        send_packet(srip='10.0.0.254', dsip=actuator_ip[actuator], dstport=8090, data="Close circuit")
+        send_packet(srip='10.0.0.55', dsip=actuator_ip[actuator], dstport=8090, data="Close circuit")
 
 
 if __name__ == "__main__":
