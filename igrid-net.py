@@ -66,7 +66,7 @@ def topology():
 
     # time.sleep(90)
 
-    net.plotGraph(max_x=100, max_y=100)
+    net.plotGraph(max_x=150, max_y=150)
 
     info("*** Enabling Association control (AP)\n")
 
