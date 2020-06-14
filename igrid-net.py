@@ -16,6 +16,7 @@ from packets import *
 # command to start virtual interface to capture simulations traffic
 #
 
+
 def int2dpid(dpid):
     try:
         dpid = hex(dpid)[2:]
@@ -58,7 +59,6 @@ def topology():
     # time.sleep(40)
     net.setPropagationModel(model="logDistance", exp=4)
     # net.setModule('./mac80211_hwsim.ko')
-
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()

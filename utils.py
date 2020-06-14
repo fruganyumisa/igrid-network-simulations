@@ -1,3 +1,7 @@
+import math
+from random import random
+
+
 def spawnStations(net, sensors=0, smart_meters=0, actuator=0, mac_prefix="00:00:00:00:00", ip_prefix="10.0.0", cidr="/8"):
     """
     spawnStations generate specified number of IoT devices (sensors) and assign to them (stations) 
@@ -29,7 +33,7 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
     """
     for i in range(device_total):
         device_control += 1
-        device_name = '{}{}'.format(prefix_name,i + 1)
+        device_name = '{}{}'.format(prefix_name, i + 1)
         mac_addr = '{}:{:0>2d}'.format(mac_prefix, device_control)
         ip_addr = '{}.{}{}'.format(ip_prefix, device_control, cidr)
         pos = '{},{},0'.format(device_control, device_control)
@@ -38,7 +42,7 @@ def generate(net, device_control, device_total, prefix_name, mac_prefix, ip_pref
               mac_addr, "ip_addr:", ip_addr, "position:", pos)
         net.addStation(device_name, mac=mac_addr, ip=ip_addr,
                        antennaHeight='1', antennaGain='5',  position=pos)
-                       #, active_scan=1, scan_freq="2412 2437 2462"
+        # , active_scan=1, scan_freq="2412 2437 2462"
     return net
 
 
@@ -53,3 +57,21 @@ def spawnAccessPoint(net, access_point=0):
         net.addAccessPoint(ap_name, ssid=ssid, mode='g', channel='6',
                            model='DI524', position=pos, range='100')
     return net
+
+
+def generateStationsCoordinates(radius):
+    """
+    Function generates a random station x, y coordinate which lies within the AP coverage radius
+    and returns its X and Y coordinates as a tuple.
+    """
+
+    t = 2 * math.pi * random()
+    u = random() + random()
+    r = None
+
+    if u > 1:
+        r = 2 - u
+    else:
+        r = u
+
+    return radius * r * math.cos(t), radius * r * math.sin(t)
