@@ -33,7 +33,7 @@ def topology():
     print("Welcome to mininet-Wifi")
     net = Mininet_wifi(controller=Controller, link=wmediumd,
                        accessPoint=OVSKernelAP, noise_th=-91,  ac_method='sf')
-    # Hey mbaga here the for loop should be placed you can create a function in which when called with input maybe number of AP3 it uses a loop to create them
+
     info("*** Creating nodes\n")
     ap1 = net.addAccessPoint('ap1', ssid='iGrid-ap1', mode='g', channel='6',
                              model='DI524', position='10,30,0', range='100')
@@ -43,10 +43,6 @@ def topology():
                              model='DI524', position='60,30,0', range='100')
 
     # Creating Stations (Smart meters, sensors and actuators)
-
-    # Hey mbaga here the for loop should be placed you can create a function in which when called with input maybe number of particulr nodes
-    #  it uses a loop to create them the nodes maybe the smart meters, sensors or actuators
-
     server = net.addHost('server', mac='00:00:00:00:08:00', ip='10.0.0.254/8')
     sw = net.addSwitch('sw',  dpid=int2dpid(1))
 
