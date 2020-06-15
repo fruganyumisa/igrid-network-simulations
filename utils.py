@@ -71,6 +71,6 @@ def generateStationsCoordinates(radius, reference=(0, 0), count=0):
     for i in range(0, count):
         r = radius * math.sqrt(random())
         theta = 2 * math.pi * random()
-        coordinates.append(
-            (reference[0] + r * math.cos(theta), reference[1] + r * math.sin(theta)))
+        coordinates.append((round(
+            reference[0] + r * math.cos(theta)), round(reference[1] + r * math.sin(theta))))
     return coordinates
