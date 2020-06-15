@@ -10,7 +10,7 @@ from mn_wifi.devices import DeviceTxPower as GetTxPower
 from mn_wifi.link import wmediumd
 from mn_wifi.wmediumdConnector import interference
 from mn_wifi.propagationModels import PropagationModel
-from utils import spawnStations
+from utils import spawnAccessPoint, spawnStations
 from packets import *
 
 # command to start virtual interface to capture simulations traffic
@@ -36,11 +36,11 @@ def topology():
 
     info("*** Creating nodes\n")
     ap1 = net.addAccessPoint('ap1', ssid='iGrid-ap1', mode='g', channel='6',
-                             model='DI524', position='10,30,0', range='100')
+                             model='DI524', position='100,100,0', range='100')
     ap2 = net.addAccessPoint('ap2', ssid='iGrid-ap2', mode='g', channel='1',
-                             model='DI524', position='40,30,0', range='100')
+                             model='DI524', position='100,100,0', range='100')
     ap3 = net.addAccessPoint('ap3', ssid='iGrid-ap3', mode='g', channel='3',
-                             model='DI524', position='60,30,0', range='100')
+                             model='DI524', position='100,1000,0', range='100')
 
     # Creating Stations (Smart meters, sensors and actuators)
     server = net.addHost('server', mac='00:00:00:00:08:00', ip='10.0.0.254/8')
