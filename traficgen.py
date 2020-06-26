@@ -1,7 +1,8 @@
 #from packets import *
 import time
-from array import *
-from packets import send_packet
+from packets import unpack_send_packet
+from multiprocessing import Pool
+import itertools
 
 
 def generate_ip(start_ip=1, total_ips=25,):
@@ -26,29 +27,26 @@ This fuction generates ips from a given number from specified starting last octe
 """
 
     # smartmeters send their traffic
-
-    ip = generate_ip(start_ip=1, total_ips=30)
-
-    for node in range(30):
-        send_packet(ip[node], dsip='10.0.0.55', dstport=8080)
+    pool = Pool(processes=30)
+    destination = {
+        "ip": "10.0.0.55",
+        "port": "8080"
+    }
+    pool.map(unpack_send_packet, itertools.izip(generate_ip(
+        start_ip=1, total_ips=30), itertools.repeat(destination)))
 
     time.sleep(20)
+
     # stations(sensors) send their traffic
-    sensor_ip = generate_ip(start_ip=31, total_ips=45)
-
-    for sensor in range(45):
-        send_packet(sensor_ip[sensor], dsip='10.0.0.55',
-                    dstport=8080, data="V = 240, I = 15, T = 09:40")
-
+    pool = Pool(processes=45)
+    pool.map(unpack_send_packet, itertools.izip(generate_ip(
+        start_ip=31, total_ips=45), itertools.repeat(destination)))
     time.sleep(5)
 
     # actuator receive the packets from fog
-
-    actuator_ip = generate_ip(start_ip=76, total_ips=10)
-
-    for actuator in range(10):
-        send_packet(
-            srip='10.0.0.55', dsip=actuator_ip[actuator], dstport=8090, data="Close circuit")
+    pool = Pool(processes=10)
+    pool.map(unpack_send_packet, itertools.izip(generate_ip(
+        start_ip=76, total_ips=10), itertools.repeat(destination)))
 
 
 if __name__ == "__main__":
