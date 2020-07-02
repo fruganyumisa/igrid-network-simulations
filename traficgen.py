@@ -30,7 +30,7 @@ This fuction generates ips from a given number from specified starting last octe
     pool = Pool(processes=30)
     destination = {
         "ip": "10.0.0.55",
-        "port": "8080"
+        "port": 8080
     }
     pool.map(unpack_send_packet, itertools.izip(generate_ip(
         start_ip=1, total_ips=30), itertools.repeat(destination)))
