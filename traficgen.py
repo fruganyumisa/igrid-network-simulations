@@ -3,6 +3,8 @@ import time
 from packets import unpack_send_packet
 from multiprocessing import Pool
 import itertools
+import signal
+import sys
 
 
 def generate_ip(start_ip=1, total_ips=25,):
@@ -49,5 +51,12 @@ This fuction generates ips from a given number from specified starting last octe
         start_ip=76, total_ips=10), itertools.repeat(destination)))
 
 
+def signal_handler(sig, frame):
+    print 'You pressed Ctrl+C!'
+    sys.exit(0)
+
+
 if __name__ == "__main__":
-    node_sendpkts()
+    signal.signal(signal.SIGINT, signal_handler)
+    while True:
+        node_sendpkts()
