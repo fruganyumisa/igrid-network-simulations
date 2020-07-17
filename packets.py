@@ -12,10 +12,9 @@ def create_packet(srip, dstip, dstport, payload='This is dummy traffic'):
 
 
 def send_packet(srip, destination={}, data="V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM"):
-    # packet = create_packet(srip=srip, dstip=destination.get("ip"),
-    #                        dstport=destination.get("port"), payload=data)
-    # send(packet, count=1, return_packets=True)
-    print(srip, destination)
+    packet = create_packet(srip=srip, dstip=destination.get("ip"),
+                           dstport=destination.get("port"), payload=data)
+    send(packet, count=1, return_packets=True)
 
 
 def unpack_send_packet(args):

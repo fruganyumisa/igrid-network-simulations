@@ -8,6 +8,8 @@ import sys
 import schedule
 import random
 import threading
+import inquirer
+
 
 def generate_ip(start_ip=1, total_ips=25,):
     ip_array = []
@@ -29,7 +31,8 @@ def split_list(alist, wanted_parts=1):
 
 def batch_schedule(batch=[], interval=1, destination={}):
     for i in batch:
-        schedule.every(interval=interval).seconds.do(job_func=send_packet, srip=i, destination=destination).tag("sim")
+        schedule.every(interval=interval).seconds.do(
+            job_func=send_packet, srip=i, destination=destination).tag("sim")
 
 
 def node_send_in_interval():
@@ -37,12 +40,14 @@ def node_send_in_interval():
         "ip": "10.0.0.55",
         "port": 8080
     }
-    ips_parts = split_list(alist=generate_ip(start_ip=1, total_ips=75), wanted_parts=10)
+    ips_parts = split_list(alist=generate_ip(
+        start_ip=1, total_ips=75), wanted_parts=10)
 
     interval = 5
     for part in ips_parts:
-        threading.Thread(target=batch_schedule, args=(part, interval,destination)).start()
-        interval=+5
+        threading.Thread(target=batch_schedule, args=(
+            part, interval, destination)).start()
+        interval = +5
 
     while True:
         schedule.run_pending()
@@ -89,6 +94,16 @@ def signal_handler(sig, frame):
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
-    # while True:
-    #     node_sendpkts()
-    node_send_in_interval()
+    questions = [
+        inquirer.List('type',
+                      message="WHich simulation do you need?",
+                      choices=['1.Send packet at once', '2. Send packet at random interval'],
+                      ),
+    ]
+    sim_type = inquirer.prompt(questions).get('type')
+    
+    if sim_type == 1:
+        while True:
+            node_sendpkts()
+    else:
+        node_send_in_interval()
