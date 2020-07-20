@@ -12,6 +12,7 @@ from mn_wifi.wmediumdConnector import interference
 from mn_wifi.propagationModels import PropagationModel
 from utils import spawnAccessPoint, spawnStations
 from packets import *
+import threading
 
 # command to start virtual interface to capture simulations traffic
 #
@@ -59,6 +60,7 @@ def topology():
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
     net.start_socket()
+    threading.Thread(target=net.start_socket, args=()).start()
 
     # time.sleep(90)
 
@@ -82,9 +84,9 @@ def topology():
     ap2.start([cl])
     ap3.start([cl])
 
-    #net.cmd( "sh ifconfig hwsim0 up")
-    #os.system("sh ifconfig hwsim0 up")
-    #os.system("sudo wireshark")
+    # net.cmd( "sh ifconfig hwsim0 up")
+    # os.system("sh ifconfig hwsim0 up")
+    # os.system("sudo wireshark")
 
     #  info("Starting traffic\n")
 
