@@ -81,6 +81,7 @@ def topology():
     ap1.start([cl])
     ap2.start([cl])
     ap3.start([cl])
+    sw.start([cl])
 
     # net.cmd( "sh ifconfig hwsim0 up")
     # os.system("sh ifconfig hwsim0 up")
