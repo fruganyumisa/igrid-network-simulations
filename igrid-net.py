@@ -33,7 +33,7 @@ def topology():
 
     print("Welcome to mininet-Wifi")
     net = Mininet_wifi(controller=Controller, link=wmediumd,
-                       accessPoint=OVSKernelAP, noise_th=-91,  ac_method='sf', set_socket_ip='0.0.0.0', set_socket_port=8080)
+                       accessPoint=OVSKernelAP, noise_th=-91,  ac_method='sf')
 
     info("*** Creating nodes\n")
     ap1 = net.addAccessPoint('ap1', ssid='iGrid-ap1', mode='g', channel='6',
@@ -59,8 +59,6 @@ def topology():
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
-    net.start_socket()
-    threading.Thread(target=net.start_socket, args=()).start()
 
     # time.sleep(90)
 
