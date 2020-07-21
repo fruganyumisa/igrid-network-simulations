@@ -97,7 +97,9 @@ def topology():
     #     dstport=8080
 
     #     send_packet(srip=srcip,dsip=dstip,dstport=dstport)
-
+    sensor  = net.get('sensor30')
+    sensor.cmd('python sockets/server.py %s' %sensor.IP())
+    
     info("*** Running CLI\n")
     CLI_wifi(net)
 
