@@ -1,15 +1,28 @@
-import socket
-import sys
+import socket       
+import sys         
+  
+# next create a socket object 
+s = socket.socket()          
+print "Socket successfully created"
 
-address = (sys.argv[1], 8080)
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(address)
-f = open('/home/wifi/a.txt', 'w+')
-
-while True:
-    data, addr = s.recvfrom(1024)
-    print 'data', data
-    f.write(data)
-    f.flush()
-    f.close()
-    s.close()
+port = 8080                
+s.bind((sys.argv[1], port))        
+print "socket binded to %s" %(port) 
+  
+# put the socket into listening mode 
+s.listen(5)      
+print "socket is listening"            
+  
+# a forever loop until we interrupt it or  
+# an error occurs 
+while True: 
+  
+   # Establish connection with client. 
+   c, addr = s.accept()      
+   print 'Got connection from', addr 
+  
+   # send a thank you message to the client.  
+   c.send('Thank you for connecting') 
+  
+   # Close the connection with the client 
+   c.close()

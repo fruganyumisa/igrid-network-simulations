@@ -11,11 +11,8 @@ from mn_wifi.link import wmediumd
 from mn_wifi.wmediumdConnector import interference
 from mn_wifi.propagationModels import PropagationModel
 from utils import spawnAccessPoint, spawnStations
-from packets import *
 import threading
 
-# command to start virtual interface to capture simulations traffic
-#
 
 
 def int2dpid(dpid):
@@ -52,15 +49,13 @@ def topology():
 
     cl = net.addController('cl', controller=Controller)
 
-    # Takes 5 minutes before to proceed
-    # time.sleep(40)
+
     net.setPropagationModel(model="logDistance", exp=4)
     # net.setModule('./mac80211_hwsim.ko')
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
 
-    # time.sleep(90)
 
     net.plotGraph(max_x=200, max_y=200)
 
@@ -87,27 +82,14 @@ def topology():
     # os.system("sh ifconfig hwsim0 up")
     # os.system("sudo wireshark")
 
-    #  info("Starting traffic\n")
-
-    #  for i in range(33):
-    #     device_control =+2
-    #     ip_prefix ='10.0.0'
-    #     srcip  = '{}.{}'.format(ip_prefix, device_control)
-    #     dstip='10.0.8.5'
-    #     dstport=8080
-
-    #     send_packet(srip=srcip,dsip=dstip,dstport=dstport)
     sensor  = net.get('sensor30')
-    sensor.cmd('python sockets/server.py %s' %sensor.IP())
+    sensor.cmd('nohup python sockets/server.py %s &'% sensor.IP())
     
     info("*** Running CLI\n")
     CLI_wifi(net)
 
     info("*** Stopping the network \n")
     net.stop()
-
-# setLogLevel('info')
-# topology()
 
 
 if __name__ == '__main__':
