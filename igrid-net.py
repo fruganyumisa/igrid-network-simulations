@@ -82,8 +82,8 @@ def topology():
     # os.system("sh ifconfig hwsim0 up")
     # os.system("sudo wireshark")
 
-    sensor  = net.get('sensor30')
-    sensor.cmd('nohup python sockets/server.py %s &'% sensor.IP())
+    fog  = net.get('server')
+    fog.cmd('nohup python sockets/server.py %s &'% fog.IP())
     
     info("*** Running CLI\n")
     CLI_wifi(net)

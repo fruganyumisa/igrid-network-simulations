@@ -37,7 +37,7 @@ def batch_schedule(batch=[], interval=1, destination={}):
 
 def node_send_in_interval():
     destination = {
-        "ip": "10.0.0.55",
+        "ip": "10.0.0.254",
         "port": 8080
     }
     ips_parts = split_list(alist=generate_ip(
@@ -64,7 +64,7 @@ This fuction generates ips from a given number from specified starting last octe
     # smartmeters send their traffic
     pool = Pool(processes=30)
     destination = {
-        "ip": "10.0.0.55",
+        "ip": "10.0.0.254",
         "port": 8080
     }
     pool.map(unpack_send_packet, itertools.izip(generate_ip(
