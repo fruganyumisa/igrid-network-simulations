@@ -1,3 +1,4 @@
 scapy==2.4.3
+netaddr==0.8.0
 inquirer==2.7.0
 schedule==0.6.0
