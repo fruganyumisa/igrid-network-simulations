@@ -32,6 +32,5 @@ if __name__ == "__main__":
 
         print(answers.get('sensors'), answers.get('smart_meters'), answers.get('actuators'))
         
-
     except KeyboardInterrupt:
         sys.exit('\nERROR: Interrupted by user')
