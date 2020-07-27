@@ -1,5 +1,5 @@
 import math
-from random import random
+from random import random, randint
 from netaddr import IPNetwork
 from mininet.node import Controller
 from mn_wifi.net import Mininet_wifi
@@ -81,6 +81,8 @@ class IGRID:
         coordinates = self.__generateNodesCoordinates__(
             radius=100, reference=(100, 100))
 
+        mac_addresses = self.__generateNodesMacAddress__()
+
         network = IPNetwork(network)
 
         add_hosts = ((total//255) * 2) + 255 // (total % 255)
@@ -92,13 +94,14 @@ class IGRID:
             control += 1
             device_name = 'sensor%d' % (i+1)
             pos = '%s,%s,0' % (coordinates[i][0], coordinates[i][1])
+            mac_addr = mac_addresses[i]
             ip_addr = ip_addresses[i]
 
             print("Device: ", device_name, "ip_addr:",
                   ip_addr, "position:", pos)
 
             node = self.net.addStation(
-                device_name, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
+                device_name, mac=mac_addr, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
 
             self.sensors_nodes.append(node)
 
@@ -107,13 +110,14 @@ class IGRID:
             device_name = 'meters%d' % (i+1)
             pos = '%s,%s,0' % (
                 coordinates[control][0], coordinates[control][1])
+            mac_addr = mac_addresses[control]
             ip_addr = ip_addresses[control]
 
             print("Device: ", device_name, "ip_addr:",
                   ip_addr, "position:", pos)
 
             node = self.net.addStation(
-                device_name, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
+                device_name, mac=mac_addr, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
 
             self.smart_meters_nodes.append(node)
             control += 1
@@ -123,13 +127,14 @@ class IGRID:
             device_name = 'actuator%d' % (i+1)
             pos = '%s,%s,0' % (
                 coordinates[control][0], coordinates[control][1])
+            mac_addr = mac_addresses[control]
             ip_addr = ip_addresses[control]
 
             print("Device: ", device_name, "ip_addr:",
                   ip_addr, "position:", pos)
 
             node = self.net.addStation(
-                device_name, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
+                device_name, mac=mac_addr, ip=ip_addr, antennaHeight='1', antennaGain='5',  position=pos)
 
             self.actuators_nodes.append(node)
             control += 1
@@ -154,11 +159,22 @@ class IGRID:
         """
         coordinates = []
 
-        total_nodes = len(self.sensors) + \
-            len(self.smart_meters) + len(self.actuators)
+        total_nodes = self.sensors + self.smart_meters + self.actuators
         for _ in range(0, total_nodes):
             r = radius * math.sqrt(random())
             theta = 2 * math.pi * random()
             coordinates.append((round(
                 reference[0] + r * math.cos(theta)), round(reference[1] + r * math.sin(theta))))
         return coordinates
+
+    def __generateNodesMacAddress__(self):
+        """
+            Returns a completely random Mac Addresses
+        """
+        mac_addr = []
+        total = self.sensors + self.smart_meters + self.actuators
+        for _ in range(total):
+            mac = [0x00, 0x16, 0x3e, randint(0x00, 0x7f), randint(
+                0x00, 0xff), randint(0x00, 0xff)]
+            mac_addr.append(':'.join(map(lambda x: "%02x" % x, mac)))
+        return mac_addr
