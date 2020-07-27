@@ -30,7 +30,14 @@ if __name__ == "__main__":
         ]
         answers = inquirer.prompt(questions)
 
-        print(answers.get('sensors'), answers.get('smart_meters'), answers.get('actuators'))
-        
+        sensors = int(answers.get('sensors'))
+        smart_meters = int(answers.get('smart_meters'))
+        actuators = int(answers.get('actuators'))
+        net = IGRID(sensors=sensors, smart_meters=smart_meters, actuators=actuators)
+
+        net.start()
+
     except KeyboardInterrupt:
+        net.stop()
         sys.exit('\nERROR: Interrupted by user')
+        
