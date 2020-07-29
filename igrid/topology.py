@@ -28,7 +28,7 @@ class IGRID:
         self.__addNodes__()
 
         server = self.net.addHost(
-            'server', mac='00:00:00:00:08:00', ip='10.10.10.254/8')
+            'fog-server', mac='00:00:00:00:08:00', ip='10.10.10.254/8')
 
         self.switch = self.net.addSwitch('sw',  dpid=self.__int2dpid__(1))
 
@@ -178,3 +178,7 @@ class IGRID:
                 0x00, 0xff), randint(0x00, 0xff)]
             mac_addr.append(':'.join(map(lambda x: "%02x" % x, mac)))
         return mac_addr
+
+    def __start_fog_server__(self):
+        server = self.net.get('fog-server')
+        server.cmd('nohup python sockets/server.py %s &' % server.IP())
