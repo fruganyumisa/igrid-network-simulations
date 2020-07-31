@@ -1,13 +1,13 @@
 #!/usr/bin/python2
 
-from os import sys, path 
-if __name__ == '__main__' and __package__ is None: 
+from os import sys, path
+if __name__ == '__main__' and __package__ is None:
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import signal
 import inquirer
 from inquirer import errors
-from igrid.topology import IGRID
+from igrid.traffic import Traffic
 
 
 def number_validation(answers, current):
@@ -33,11 +33,26 @@ if __name__ == "__main__":
         sensors = int(answers.get('sensors'))
         smart_meters = int(answers.get('smart_meters'))
         actuators = int(answers.get('actuators'))
-        net = IGRID(sensors=sensors, smart_meters=smart_meters, actuators=actuators)
+        net = Traffic(sensors=sensors, smart_meters=smart_meters,
+                      actuators=actuators)
 
         net.start()
+
+        questions = [
+            inquirer.List('type',
+                          message="Choose simulation to run",
+                          choices=['1.Send packet at once',
+                                   '2. Send packet at random interval'],
+                          ),
+        ]
+        sim_type = inquirer.prompt(questions).get('type')
+
+        if sim_type == 1:
+            while True:
+                net.send_once()
+        else:
+            net.send_in_interval()
 
     except KeyboardInterrupt:
         net.stop()
         sys.exit('\nERROR: Interrupted by user')
-        

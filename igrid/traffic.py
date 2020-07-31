@@ -61,7 +61,7 @@ class Traffic(IGRID):
             itertools.repeat(dst), self.actuators_nodes))
         pool.close()
 
-    def send_in_interval(self, port):
+    def send_in_interval(self, port=8080):
         dst = {"ip": self.net.get('fog-server').IP(), "port": port}
 
         nodes = [node for node in itertools.chain(
