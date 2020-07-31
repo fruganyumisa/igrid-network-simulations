@@ -1,0 +1,58 @@
+#!/usr/bin/python2
+
+from os import sys, path
+if __name__ == '__main__' and __package__ is None:
+    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
+import signal
+import inquirer
+from inquirer import errors
+from igrid.traffic import Traffic
+
+
+def number_validation(answers, current):
+    if not current.isdigit():
+        raise errors.ValidationError(
+            '', reason='input value is not a number, please enter a valid number')
+
+    return True
+
+
+if __name__ == "__main__":
+    try:
+        questions = [
+            inquirer.Text('sensors', message='Number of sensor node(s)?',
+                          validate=number_validation),
+            inquirer.Text(
+                'smart_meters', message='Number of smart meters node(s)?', validate=number_validation),
+            inquirer.Text(
+                'actuators', message='Number of actuator node(s)?', validate=number_validation)
+        ]
+        answers = inquirer.prompt(questions)
+
+        sensors = int(answers.get('sensors'))
+        smart_meters = int(answers.get('smart_meters'))
+        actuators = int(answers.get('actuators'))
+        net = Traffic(sensors=sensors, smart_meters=smart_meters,
+                      actuators=actuators)
+
+        net.start()
+
+        questions = [
+            inquirer.List('type',
+                          message="Choose simulation to run",
+                          choices=['1.Send packet at once',
+                                   '2. Send packet at random interval'],
+                          ),
+        ]
+        sim_type = inquirer.prompt(questions).get('type')
+
+        if '1.' in sim_type:
+            while True:
+                net.send_once()
+        else:
+            net.send_in_interval()
+
+    except KeyboardInterrupt:
+        net.stop()
+        sys.exit('\nERROR: Interrupted by user')
