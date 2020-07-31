@@ -47,7 +47,7 @@ if __name__ == "__main__":
         ]
         sim_type = inquirer.prompt(questions).get('type')
 
-        if sim_type == 1:
+        if '1.' in sim_type:
             while True:
                 net.send_once()
         else:

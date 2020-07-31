@@ -9,7 +9,7 @@ from mininet.log import setLogLevel, info
 from mn_wifi.cli import CLI as mininet_cli
 
 
-class IGRID:
+class IGRID(object):
     net = Mininet_wifi(controller=Controller, link=wmediumd,
                        accessPoint=OVSKernelAP, noise_th=-91,  ac_method='sf')
 

@@ -11,7 +11,7 @@ class Traffic(IGRID):
 
     def __init__(self, sensors=0, smart_meters=0, actuators=0):
         self.payload = "V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM"
-        super().__init__(sensors, smart_meters, actuators)
+        super(Traffic, self).__init__(sensors, smart_meters, actuators)
 
     def __create_packet__(self, src, dst, port, payload):
         return Ether()/IP(src=src, dst=dst)/TCP(dport=port)/payload
@@ -25,9 +25,9 @@ class Traffic(IGRID):
         self.__send_packet__(*args)
 
     def __batch_schedule__(self, batch=[], interval=1, dst={}):
-        for i in batch:
+        for node in batch:
             schedule.every(interval=interval).seconds.do(
-                job_func=self.__send_packet__, srip=i, destination=dst).tag("sim")
+                job_func=self.__send_packet__, src=str(node.IP()), dst=dst).tag("sim")
 
     def __split_nodes__(self, alist, wanted_parts=1):
         random.shuffle(alist)
