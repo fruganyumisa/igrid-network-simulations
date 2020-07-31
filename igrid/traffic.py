@@ -4,7 +4,7 @@ import itertools
 import threading
 from scapy.all import *
 from topology import IGRID
-from multiprocessing import Pool
+from multiprocessing.pool import ThreadPool as Pool
 
 
 class Traffic(IGRID):
@@ -40,25 +40,29 @@ class Traffic(IGRID):
         dst = {"ip": self.net.get('fog-server').IP(), "port": port}
 
         # sensors nodes send traffic
-        pool = Pool(processes=len(self.sensors_nodes))
+        sensors = [str(node.IP()) for node in self.sensors_nodes]
+        pool = Pool(processes=len(sensors))
         pool.map(self.__unpack_send_packet__, itertools.izip(
-            self.sensors_nodes, itertools.repeat(dst)))
+            sensors, itertools.repeat(dst)))
         pool.close()
 
         time.sleep(20)
 
         # smart meter nodes send trafic
-        pool = Pool(processes=len(self.smart_meters_nodes))
+        smart_meters = [str(node.IP()) for node in self.smart_meters_nodes]
+        pool = Pool(processes=len(smart_meters))
         pool.map(self.__unpack_send_packet__, itertools.izip(
-            self.smart_meters_nodes, itertools.repeat(dst)))
+            smart_meters, itertools.repeat(dst)))
         pool.close()
 
         time.sleep(5)
 
         # actuator nodes receive traffic from for server
-        pool = Pool(processes=len(self.actuators_nodes))
+        actuators = [{"ip": str(node.IP()), "port": 8080}
+                     for node in self.actuators_nodes]
+        pool = Pool(processes=len(actuators))
         pool.map(self.__unpack_send_packet__, itertools.izip(
-            itertools.repeat(dst), self.actuators_nodes))
+            itertools.repeat(dst.get('ip')), actuators))
         pool.close()
 
     def send_in_interval(self, port=8080):
