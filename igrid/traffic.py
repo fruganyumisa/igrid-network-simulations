@@ -19,7 +19,8 @@ class Traffic(IGRID):
     def __send_packet__(self, src, dst={}):
         packet = self.__create_packet__(src=src, dst=dst.get(
             "ip"), port=dst.get("port"), payload=self.payload)
-        send(packet, count=1, return_packets=True)
+        sendp(packet, count=1, return_packets=True, iface='sw-eth1')
+
 
     def __unpack_send_packet__(self, args):
         self.__send_packet__(*args)
