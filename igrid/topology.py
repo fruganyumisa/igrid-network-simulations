@@ -13,10 +13,12 @@ class IGRID(object):
     net = Mininet_wifi(controller=Controller, link=wmediumd,
                        accessPoint=OVSKernelAP, noise_th=-91,  ac_method='sf')
 
-    def __init__(self, sensors=0, smart_meters=0, actuators=0):
+    def __init__(self, sensors=0, smart_meters=0, actuators=0, max_x=200, max_y=200):
         self.sensors = sensors
         self.smart_meters = smart_meters
         self.actuators = actuators
+        self.max_x = max_x
+        self.max_y = max_y
 
         self.sensors_nodes = []
         self.smart_meters_nodes = []
@@ -38,7 +40,7 @@ class IGRID(object):
 
         info("*** Configuring wifi nodes\n")
         self.net.configureWifiNodes()
-        self.net.plotGraph(max_x=200, max_y=200)
+        self.net.plotGraph(max_x=self.max_x, max_y=self.max_y)
 
         info("*** Enabling Association control (AP)\n")
         self.net.auto_association()

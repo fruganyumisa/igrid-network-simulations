@@ -6,8 +6,10 @@ if __name__ == '__main__' and __package__ is None:
 
 import signal
 import inquirer
+import threading
 from inquirer import errors
 from igrid.traffic import Traffic
+
 
 
 def number_validation(answers, current):
@@ -26,30 +28,34 @@ if __name__ == "__main__":
             inquirer.Text(
                 'smart_meters', message='Number of smart meters node(s)?', validate=number_validation),
             inquirer.Text(
-                'actuators', message='Number of actuator node(s)?', validate=number_validation)
+                'actuators', message='Number of actuator node(s)?', validate=number_validation),
+            inquirer.Text(
+                'plot', message='Plot graph size x,y eg. 200,200')
         ]
         answers = inquirer.prompt(questions)
 
         sensors = int(answers.get('sensors'))
         smart_meters = int(answers.get('smart_meters'))
         actuators = int(answers.get('actuators'))
+        plot = answers.get('plot').split(',')
         net = Traffic(sensors=sensors, smart_meters=smart_meters,
-                      actuators=actuators)
+                      actuators=actuators, max_x=int(plot[0]), max_y=int(plot[1]))
 
         net.start()
 
         questions = [
             inquirer.List('type',
                           message="Choose simulation to run",
-                          choices=['1.Send packet at once',
-                                   '2. Send packet at random interval'],
+                          choices=['1.Simulate fault network routine',
+                                   '2.Simulate normal network routine'],
                           ),
         ]
         sim_type = inquirer.prompt(questions).get('type')
 
         if '1.' in sim_type:
             while True:
-                net.send_once()
+                threading.Thread(target=net.send_once()).start()
+                net.send_in_interval()
         else:
             net.send_in_interval()
 

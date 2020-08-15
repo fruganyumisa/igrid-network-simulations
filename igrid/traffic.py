@@ -9,9 +9,9 @@ from multiprocessing.pool import ThreadPool as Pool
 
 class Traffic(IGRID):
 
-    def __init__(self, sensors=0, smart_meters=0, actuators=0):
+    def __init__(self, sensors=0, smart_meters=0, actuators=0, max_x=200, max_y=200):
         self.payload = "V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM V = 240, I = 15, T = 08:40 PM"
-        super(Traffic, self).__init__(sensors, smart_meters, actuators)
+        super(Traffic, self).__init__(sensors, smart_meters, actuators, max_x, max_y)
 
     def __create_packet__(self, src, dst, port, payload):
         return Ether()/IP(src=src, dst=dst)/TCP(dport=port)/payload
