@@ -58,6 +58,9 @@ class IGRID(object):
         for ap in self.access_points_nodes:
             ap.start([self.controller])
 
+        self.__start_actuator_server__()
+        self.__start_fog_server__()
+        
         mininet_cli(self.net)
 
     def stop(self):
@@ -184,3 +187,7 @@ class IGRID(object):
     def __start_fog_server__(self):
         server = self.net.get('fog-server')
         server.cmd('nohup python sockets/server.py %s &' % server.IP())
+
+    def __start_actuator_server__(self):
+        for node in self.actuators_nodes:
+            node.cmd('nohup python sockets/server.py %s &' % node.IP())
