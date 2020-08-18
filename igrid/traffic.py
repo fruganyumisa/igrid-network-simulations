@@ -1,3 +1,4 @@
+import sys
 import random
 import schedule
 import itertools
@@ -92,4 +93,5 @@ class Traffic(IGRID):
     
     def stop(self):
         schedule.clear('sim')
-        self.net.close()
+        self.net.stop()
+        sys.exit('\nERROR: Interrupted by user')
