@@ -19,46 +19,61 @@ def number_validation(answers, current):
 
     return True
 
+def choice_validation():
+    questions = [
+        inquirer.List('choice',
+                      message="Choose next process",
+                      choices=['1.Add fault network routine to xisting network',
+                               '2.Exit simulation'],
+                      ),
+    ]
+    return inquirer.prompt(questions).get('choice')
+
 
 if __name__ == "__main__":
-    try:
-        questions = [
-            inquirer.Text('sensors', message='Number of sensor node(s)?',
-                          validate=number_validation),
-            inquirer.Text(
-                'smart_meters', message='Number of smart meters node(s)?', validate=number_validation),
-            inquirer.Text(
-                'actuators', message='Number of actuator node(s)?', validate=number_validation),
-            inquirer.Text(
-                'plot', message='Plot graph size x,y eg. 200,200')
-        ]
-        answers = inquirer.prompt(questions)
+    
+    questions = [
+        inquirer.Text('sensors', message='Number of sensor node(s)?',
+                      validate=number_validation),
+        inquirer.Text(
+            'smart_meters', message='Number of smart meters node(s)?', validate=number_validation),
+        inquirer.Text(
+            'actuators', message='Number of actuator node(s)?', validate=number_validation),
+        inquirer.Text(
+            'plot', message='Plot graph size x,y eg. 200,200')
+    ]
+    
+    answers = inquirer.prompt(questions)
+    sensors = int(answers.get('sensors'))
+    smart_meters = int(answers.get('smart_meters'))
+    actuators = int(answers.get('actuators'))
+    plot = answers.get('plot').split(',')
+    net = Traffic(sensors=sensors, smart_meters=smart_meters,
+                  actuators=actuators, max_x=int(plot[0]), max_y=int(plot[1]))
 
-        sensors = int(answers.get('sensors'))
-        smart_meters = int(answers.get('smart_meters'))
-        actuators = int(answers.get('actuators'))
-        plot = answers.get('plot').split(',')
-        net = Traffic(sensors=sensors, smart_meters=smart_meters,
-                      actuators=actuators, max_x=int(plot[0]), max_y=int(plot[1]))
+    net.start()
 
-        net.start()
 
-        questions = [
-            inquirer.List('type',
-                          message="Choose simulation to run",
-                          choices=['1.Simulate fault network routine',
-                                   '2.Simulate normal network routine'],
-                          ),
-        ]
-        sim_type = inquirer.prompt(questions).get('type')
+    confirm = [ inquirer.Confirm('confirm', message="Start normal network routine?")]
+    if inquirer.prompt(confirm).get('confirm'):
+        threading.Thread(target=net.send_in_interval).start()
+    
+   
 
-        if '1.' in sim_type:
-            while True:
-                threading.Thread(target=net.send_once()).start()
-                net.send_in_interval()
-        else:
-            net.send_in_interval()
-
-    except KeyboardInterrupt:
+    choice = choice_validation()
+    
+    if '1.' in choice:
+        run_fault = True
+        while run_fault:
+            try:
+                net.send_once()
+            except KeyboardInterrupt:
+                print 'stopping fault network routine'
+                run_fault = False
+                choice = choice_validation()
+                if  '1.' in choice:
+                    run_fault =  True
+                else:
+                    net.stop()
+    else:
         net.stop()
-        sys.exit('\nERROR: Interrupted by user')

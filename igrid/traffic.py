@@ -22,12 +22,12 @@ class Traffic(IGRID):
     def __send_TCP_packet__(self, src, dst={}):
         packet = self.__create_TCP_packet__(src=src, dst=dst.get(
             "ip"), port=dst.get("port"), payload=self.payload)
-        sendp(packet,return_packets=True, iface='sw-eth1')
+        sendp(packet,return_packets=True, iface='sw-eth1', verbose=False)
 
     def __send_UDP_packet__(self, src, dst={}):
         packet = self.__create_UDP_packet__(src=src, dst=dst.get(
             "ip"), port=dst.get("port"), payload=self.payload)
-        sendp(packet, return_packets=True, iface='sw-eth1')
+        sendp(packet, return_packets=True, iface='sw-eth1', verbose=False)
 
 
     def __unpack_send_UDP_packet__(self, args):
@@ -89,3 +89,7 @@ class Traffic(IGRID):
 
         while True:
             schedule.run_pending()
+    
+    def stop(self):
+        schedule.clear('sim')
+        self.net.close()
