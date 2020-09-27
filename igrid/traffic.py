@@ -34,6 +34,9 @@ class Traffic(IGRID):
     def __unpack_send_UDP_packet__(self, args):
         self.__send_UDP_packet__(*args)
 
+    def __unpack_TCP_firmware_update__(self, args):
+        self.__create_TCP_packet__(*args)
+
     def __batch_schedule__(self, batch=[], interval=1, dst={}):
         for node in batch:
             schedule.every(interval=interval).seconds.do(
@@ -91,6 +94,36 @@ class Traffic(IGRID):
         while True:
             schedule.run_pending()
     
+    def update_firmware(self, port=8080):
+        dst = {"ip": self.net.get('fog-server').IP(), "port": port}
+
+        # update sensor nodes firmware
+        sensors = [str(node.IP()) for node in self.sensors_nodes]
+        pool = Pool(processes=len(sensors))
+        pool.map(self.__unpack_TCP_firmware_update__, itertools.izip(
+            sensors, itertools.repeat(dst)))
+        pool.close()
+
+        time.sleep(5)
+
+        # update smart meters firmware
+        smart_meters = [str(node.IP()) for node in self.smart_meters_nodes]
+        pool = Pool(processes=len(smart_meters))
+        pool.map(self.__unpack_TCP_firmware_update__, itertools.izip(
+            smart_meters, itertools.repeat(dst)))
+        pool.close()
+
+        time.sleep(5)
+
+        # update actuators firmware
+        actuators = [{"ip": str(node.IP()), "port": 8080}
+                     for node in self.actuators_nodes]
+        pool = Pool(processes=len(actuators))
+        pool.map(self.__unpack_TCP_firmware_update__, itertools.izip(
+            itertools.repeat(dst.get('ip')), actuators))
+        pool.close()
+
+
     def stop(self):
         schedule.clear('sim')
         self.net.stop()

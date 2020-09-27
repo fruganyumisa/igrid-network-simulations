@@ -24,7 +24,7 @@ def choice_validation():
         inquirer.List('choice',
                       message="Choose next process",
                       choices=['1.Add fault network routine to xisting network',
-                               '2.Exit simulation'],
+                               '2.Exit simulation', '3.Update nodes firmware'],
                       ),
     ]
     return inquirer.prompt(questions).get('choice')
@@ -73,7 +73,12 @@ if __name__ == "__main__":
                 choice = choice_validation()
                 if  '1.' in choice:
                     run_fault =  True
+                elif '3.' in choice:
+                    net.update_firmware()
                 else:
                     net.stop()
+                    
+    elif '3.' in choice:
+        net.update_firmware()
     else:
         net.stop()
