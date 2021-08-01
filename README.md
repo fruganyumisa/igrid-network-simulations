@@ -1,7 +1,7 @@
 About
 ====
 
-igrid-network-simulations is sensor network simulator for smart grid.
+igrid-network-simulations is sensor network emulator for smart grid.
 
 
 Requirements
